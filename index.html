@@ -1,13 +1,12 @@
 <!DOCTYPE HTML>
 
-<html>
+<html manifest="tmradio.manifest">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>TMradio</title>
 
-        <!-- include JQuery through Google API => Always have the latest version -->
-        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-        <script type="text/javascript"> google.load("jquery", "1.6.4"); </script>
+        <!-- include JQuery through Google API -->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 
         <!-- import JQTouch -->
         <script src="jqtouch/jqtouch.min.js" type="application/x-javascript" charset="utf-8"></script>
@@ -18,6 +17,13 @@
 
         <!-- JavaScript goes here -->
         <script type="text/javascript">
+            // Update app-cache, if there is newer version
+            function updateSite(event)
+            {
+                window.applicationCache.swapCache();
+            }
+            window.applicationCache.addEventListener('updateready', updateSite, false);
+
             // Fire up JQTouch
             var jQT = $.jQTouch({
                 icon: 'icon.png',
