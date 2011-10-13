@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>TMradio</title>
+
+        <!-- include JQuery through Google API => Always have the latest version -->
+        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+        <script type="text/javascript"> google.load("jquery", "1.6.4"); </script>
+
+        <!-- import JQTouch -->
+        <script src="jqtouch/jqtouch.min.js" type="application/x-javascript" charset="utf-8"></script>
+
+        <!-- Import JQTouch style -->
+        <link type="text/css" rel="stylesheet" media="screen" href="jqtouch/jqtouch.min.css">
+        <link type="text/css" rel="stylesheet" media="screen" href="themes/jqt/theme.min.css">
+
+        <!-- JavaScript goes here -->
+        <script type="text/javascript">
+            // Fire up JQTouch
+            var jQT = $.jQTouch({
+                icon: 'icon.png',
+                statusBar: 'black',
+                startupScreen: 'phone_startup.png'
+            });
+
+            // Determine if iPhone, Android or Desktop OS and setup the right click-event ("tap" vs "click").
+            var userAgent = navigator.userAgent.toLowerCase();
+            var isiPhone = (userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false;
+            clickEvent = isiPhone ? 'tap' : 'click';
+
+            // vote = "rocks"|"sucks"
+            function voteForCurentTrack(vote)
+            {
+                alert("not implemented")
+            }
+
+            function getCurrentTrackInfo()
+            {
+                // Show a loading message
+                var results_ul = $("#results_ul")
+
+                results_ul.text("Loading...");
+
+                // Do the ajax call
+                $.ajax({
+                    type: "GET",
+                    url: "http://stream.tmradio.net/last-track.json",
+                    dataType: "json",
+                    cache: false,
+                    success: function(data){
+                        showTrackInfo(data);
+                    },
+                    error: function(req, status, err){
+                        results_ul.text("Что то сломалось. <br>"+status + ": " + err);
+                    }
+                });
+            }
+
+            function showTrackInfo(info)
+            {
+                var results_ul = $("#results_ul");
+
+                if (info.length <= 0){
+                    results_ul.text("JSON глючит!");
+                } else {
+                    results_ul.text("«" + info.title + "» by " + info.artist + " — ♺" + info.count + " ⚖" + Math.round(info.weight * 100) / 100);
+                }
+            }
+
+            $(function(){
+                window.setInterval(getCurrentTrackInfo, 1000 * 60); // 1 min
+
+                var song = $('#tmRadio');
+                var p = $('#play');
+                var s = $('#stop');
+                var v = $('#vote');
+
+                p.click(function() { p.hide(); s.show(); v.show(); song.get(0).play();  })
+                s.click(function() { p.show(); s.hide(); v.hide(); song.get(0).pause(); })
+
+
+                song.bind('play', function(){ $('#results_ul').text('Loading…'); });
+                song.bind('playing', getCurrentTrackInfo);
+                song.bind('pause', function(){ $('#results_ul').text(''); });
+                song.bind('emptied', function(){ $('#results_ul').text('Error'); });
+            })
+        </script>
+
+
+        <!-- CSS styles -->
+        <style type="text/css" >
+            .center {text-align: center}
+        </style>
+    </head>
+
+    <!-- A simple JQTouch layout consisting of two views -->
+    <body>
+        <div id="home">
+            <div class="toolbar">
+                <h1>ТMradio(β)</h1>
+               <!-- <a class="button flip" href="#settings">Настройки</a> -->
+            </div>
+
+            <ul class="edit rounded">
+                <li class="center">
+                    <img id="play" src="Play_Button.png"></img>
+                    <img id="stop" style="display:none"  src="Stop_Button.png"></img>
+                </li>
+                <li class="info">
+                    <div id="results_ul"></div>
+                    <img id="reload" src="reload.png" onClick="getCurrentTrackInfo()" />
+                </li>
+            </ul>
+
+            <div id="vote" style="display:none;">
+                <div class="center">
+                    <img id="rocks" src="rocks.png" onClick="voteForCurentTrack('rocks')" />
+                    <img id="sucks" src="sucks.png" onClick="voteForCurentTrack('sucks')" />
+                </div>
+            </div>
+
+            <div id="player" style="display:none;">
+                <audio id="tmRadio" preload="none" src="http://stream.tmradio.net:8180/live.mp3" />
+            </div>
+        </div>
+
+        <div id="settings">
+            <div class="toolbar">
+                <h1>Настройки</h1>
+                <a class="button flip" href="#stats">Stats</a>
+                <a class="button back" href="#">Назад</a>
+            </div>
+
+            <ul class="edit rounded">
+                <li>Видимость плеера <span class="toggle"><input type="checkbox" /></span></li>
+                <li>
+                    <select id="bitRate">
+                            <option value ="32"> Битрейт: 32 кбит/с</option>
+                            <option value ="64"> Битрейт: 64 кбит/с</option>
+                            <option value ="128"> Битрейт: 128 кбит/с</option>
+                    </select>
+                </li>
+                <li>Стерео <span class="toggle"><input type="checkbox" checked /></span></li>
+            </ul>
+        </div>
+
+        <div id="stats">
+            <div class="toolbar">
+                <h1>Статистика</h1>
+                <a class="button back" href="#">Назад</a>
+            </div>
+            <div class="center">
+                <img src="http://stream.tmradio.net/listeners-hour.png"></img>
+                <img src="http://stream.tmradio.net/listeners-week.png"></img>
+            </div>
+        </div>
+    </body>
+</html>
