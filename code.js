@@ -1,3 +1,11 @@
+// Fire up JQTouch
+var jQT = $.jQTouch({
+    icon: 'icon.png',
+    statusBar: 'black',
+    startupScreen: 'phone_startup.png',
+    preloadImages: ['Play_Button.png', 'Stop_Button.png', 'reload.png', 'rocks.png', 'sucks.png']
+});
+
 var tmradio = tmradio || {};
 tmradio.iphone = {
     updater: null,
@@ -60,14 +68,6 @@ tmradio.iphone = {
     },
     init: function() {
         window.applicationCache.addEventListener('updateready', tmradio.iphone.updateSite, false);
-
-        // Fire up JQTouch
-        var jQT = $.jQTouch({
-            icon: 'icon.png',
-            statusBar: 'black',
-            startupScreen: 'phone_startup.png',
-            preloadImages: ['Play_Button.png', 'Stop_Button.png', 'reload.png', 'rocks.png', 'sucks.png']
-        });
 
         if ($('body').hasClass('fullscreen')) {
             $('#fullscreen_ad').hide();
