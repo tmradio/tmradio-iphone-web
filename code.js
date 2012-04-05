@@ -33,7 +33,14 @@ tmradio.iphone = {
                 $("#results_ul").text(data.message);
             },
             'json'
-        );
+        )
+        .error(function(){
+            alert('Looks like you have a bad auth-token');
+            localStorage.removeItem('token');
+            tmradio.iphone.token = null;
+            $('#vote').hide();
+            $('#log_in_button').text('Log In');
+        });
     },
     getCurrentTrackInfo: function() {
         // Show a loading message
