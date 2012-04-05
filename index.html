@@ -6,95 +6,13 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <title>TMradio</title>
 
-        <!-- include JQuery through Google API -->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-
-        <!-- import JQTouch -->
-        <script src="jqtouch/jqtouch.min.js" type="application/x-javascript" charset="utf-8"></script>
-
-        <!-- Import JQTouch style -->
-        <link type="text/css" rel="stylesheet" media="screen" href="jqtouch/jqtouch.min.css">
-        <link type="text/css" rel="stylesheet" media="screen" href="themes/jqt/theme.min.css">
+        <style type="text/css" media="screen">@import "themes/css/jqtouch.css";</style>
+        <script src="jqtouch/jquery-1.7.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="jqtouch/jqtouch.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="jqtouch/jqtouch-jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- JavaScript goes here -->
-        <script type="text/javascript">
-            // Update app-cache, if there is newer version
-            function updateSite(event)
-            {
-                window.applicationCache.swapCache();
-            }
-            window.applicationCache.addEventListener('updateready', updateSite, false);
-
-            // Fire up JQTouch
-            var jQT = $.jQTouch({
-                icon: 'icon.png',
-                statusBar: 'black',
-                startupScreen: 'phone_startup.png'
-            });
-
-            // Determine if iPhone, Android or Desktop OS and setup the right click-event ("tap" vs "click").
-            var userAgent = navigator.userAgent.toLowerCase();
-            var isiPhone = (userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false;
-            clickEvent = isiPhone ? 'tap' : 'click';
-
-            // vote = "rocks"|"sucks"
-            function voteForCurentTrack(vote)
-            {
-                alert("not implemented")
-            }
-
-            function getCurrentTrackInfo()
-            {
-                // Show a loading message
-                var results_ul = $("#results_ul")
-
-                results_ul.text("Loading...");
-
-                // Do the ajax call
-                $.ajax({
-                    type: "GET",
-                    url: "http://stream.tmradio.net/last-track.json",
-                    dataType: "json",
-                    cache: false,
-                    success: function(data){
-                        showTrackInfo(data);
-                    },
-                    error: function(req, status, err){
-                        results_ul.text("Что то сломалось. <br>"+status + ": " + err);
-                    }
-                });
-            }
-
-            function showTrackInfo(info)
-            {
-                var results_ul = $("#results_ul");
-
-                if (info.length <= 0){
-                    results_ul.text("JSON глючит!");
-                } else {
-                    results_ul.text("«" + info.title + "» by " + info.artist + " — ♺" + info.count + " ⚖" + Math.round(info.weight * 100) / 100);
-                }
-            }
-
-            $(function(){
-                window.setInterval(getCurrentTrackInfo, 1000 * 60); // 1 min
-
-                var song = $('#tmRadio');
-                var p = $('#play');
-                var s = $('#stop');
-                var v = $('#vote');
-
-                p.click(function() { p.hide(); s.show(); v.show(); song.get(0).play();  })
-                s.click(function() { p.show(); s.hide(); v.hide(); song.get(0).pause(); })
-
-
-                song.bind('play', function(){ $('#results_ul').text('Loading…'); });
-                song.bind('playing', getCurrentTrackInfo);
-                song.bind('pause', function(){ $('#results_ul').text(''); });
-                song.bind('emptied', function(){ $('#results_ul').text('Error'); });
-            })
-        </script>
-
+        <script src="code.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- CSS styles -->
         <style type="text/css" >
@@ -128,7 +46,7 @@
             </div>
 
             <div id="player" style="display:none;">
-                <audio id="tmRadio" preload="none" src="http://stream.tmradio.net:8180/live.mp3" />
+                <!-- <audio id="tmRadio" preload="none" src="http://stream.tmradio.net:8180/live.mp3" /> -->
             </div>
         </div>
 
