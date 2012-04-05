@@ -38,6 +38,7 @@ tmradio.iphone = {
             alert('Looks like you have a bad auth-token');
             localStorage.removeItem('token');
             tmradio.iphone.token = null;
+            $('#save_token_input').val('');
             $('#vote').hide();
             $('#log_in_button').text('Log In');
         });
