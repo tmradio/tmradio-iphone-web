@@ -25,7 +25,7 @@
         <div id="home">
             <div class="toolbar">
                 <h1>ТMradio(β)</h1>
-               <!-- <a class="button flip" href="#settings">Настройки</a> -->
+                <a class="button flip" id="log_in_button" href="#settings">Log In</a>
             </div>
 
             <ul class="edit rounded">
@@ -35,13 +35,13 @@
                 </li>
                 <li class="info">
                     <div id="results_ul"></div>
-                    <img id="reload" src="reload.png" onClick="getCurrentTrackInfo()" />
+                    <img id="reload" src="reload.png" />
                 </li>
             </ul>
 
             <div id="vote" style="display:none;">
                 <div class="center">
-                    <img id="rocks" src="rocks.png" onClick="voteForCurentTrack('rocks')" /><img id="sucks" src="sucks.png" onClick="voteForCurentTrack('sucks')" />
+                    <img id="rocks" src="rocks.png" /><img id="sucks" src="sucks.png" />
                 </div>
             </div>
 
@@ -52,22 +52,24 @@
 
         <div id="settings">
             <div class="toolbar">
-                <h1>Настройки</h1>
-                <a class="button flip" href="#stats">Stats</a>
-                <a class="button back" href="#">Назад</a>
+                <h1>Log In</h1>
+                <!-- <a class="button flip" href="#stats">Stats</a> -->
+                <a class="button back" id="back" href="#">Basic</a>
             </div>
 
+            <h2>Got your token?</h2>
             <ul class="edit rounded">
-                <li>Видимость плеера <span class="toggle"><input type="checkbox" /></span></li>
-                <li>
-                    <select id="bitRate">
-                            <option value ="32"> Битрейт: 32 кбит/с</option>
-                            <option value ="64"> Битрейт: 64 кбит/с</option>
-                            <option value ="128"> Битрейт: 128 кбит/с</option>
-                    </select>
-                </li>
-                <li>Стерео <span class="toggle"><input type="checkbox" checked /></span></li>
+                <li><input type="password" id="save_token_input" placeholder="Enter token"></li>
             </ul>
+            <a href="#" class="whiteButton" id="save_token_btn">Save Token</a>
+
+            <br><br>
+
+            <h2>Don't have token yet?</h2>
+            <ul class="edit rounded">
+                <li><input type="email" id="request_token_input" placeholder="Enter email"></li>
+            </ul>
+            <a href="#" class="grayButton" id="request_token_btn">Request Token</a>
         </div>
 
         <div id="stats">
