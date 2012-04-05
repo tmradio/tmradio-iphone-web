@@ -1,6 +1,6 @@
 CACHE MANIFEST
 #
-# Cache manifest version 6
+# Cache manifest version 7
 #
 code.js
 icon.png
@@ -17,5 +17,9 @@ themes/css/jqtouch.css
 themes/img/jqt/loading.gif
 themes/img/jqt/on_off.png
 NETWORK:
-http://stream.tmradio.net/last-track.json
 http://stream.tmradio.net:8180/live.mp3
+http://music.tmradio.net/api/auth.json
+http://music.tmradio.net/api/status.json
+http://music.tmradio.net/api/track/info.json
+http://music.tmradio.net/api/track/rocks.json
+http://music.tmradio.net/api/track/sucks.json
