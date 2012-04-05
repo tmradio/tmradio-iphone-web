@@ -21,7 +21,7 @@ function getCurrentTrackInfo()
     // Do the ajax call
     $.ajax({
         type: "GET",
-        url: "http://stream.tmradio.net/last-track.json",
+        url: "http://music.tmradio.net/api/status.json",
         dataType: "json",
         cache: false,
         success: function(data){
