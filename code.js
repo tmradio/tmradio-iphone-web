@@ -65,8 +65,12 @@ tmradio.iphone = {
         var jQT = $.jQTouch({
             icon: 'icon.png',
             statusBar: 'black',
-            startupScreen: 'phone_startup.png'
+            startupScreen: 'phone_startup.png',
         });
+
+        if ($('body').hasClass('fullscreen')) {
+            $('#fullscreen_ad').hide();
+        }
 
         $('#reload').click(tmradio.iphone.getCurrentTrackInfo);
         $('#rocks').click(function(){ tmradio.iphone.voteForCurentTrack('rocks') });
@@ -124,7 +128,7 @@ tmradio.iphone = {
             tmradio.iphone.token = input.val();
             alert('saved!')
             $('#log_in_button').text('Relogin');
-            $('#back').click();
+            jQT.goBack('#home');
         });
 
         $('#request_token_btn').click(function(){
