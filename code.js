@@ -75,7 +75,7 @@ tmradio.iphone = {
         tmradio.iphone.token = localStorage.getItem('token');
 
         if (tmradio.iphone.token) {
-            $('#log_in_button').text('Change Login');
+            $('#log_in_button').text('Relogin');
             $('#save_token_input').val(tmradio.iphone.token);
         }
 
@@ -123,7 +123,7 @@ tmradio.iphone = {
             localStorage.setItem('token', input.val());
             tmradio.iphone.token = input.val();
             alert('saved!')
-            $('#log_in_button').text('Change Login');
+            $('#log_in_button').text('Relogin');
             $('#back').click();
         });
 
