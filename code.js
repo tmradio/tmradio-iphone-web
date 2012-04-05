@@ -66,6 +66,7 @@ tmradio.iphone = {
             icon: 'icon.png',
             statusBar: 'black',
             startupScreen: 'phone_startup.png',
+            preloadImages: ['Play_Button.png', 'Stop_Button.png', 'reload.png', 'rocks.png', 'sucks.png']
         });
 
         if ($('body').hasClass('fullscreen')) {
