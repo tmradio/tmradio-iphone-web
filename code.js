@@ -8,6 +8,7 @@ var jQT = $.jQTouch({
 
 var tmradio = tmradio || {};
 tmradio.iphone = {
+    prefix: 'https://music.tmradio.net/api',
     updater: null,
     token: null,
     track_info: null,
@@ -19,9 +20,9 @@ tmradio.iphone = {
     voteForCurentTrack: function(vote) {
         var url = null;
         if (vote == 'rocks') {
-            url = 'http://music.tmradio.net/api/track/rocks.json';
+            url = tmradio.iphone.prefix + '/track/rocks.json';
         } else if (vote == 'sucks') {
-            url = 'http://music.tmradio.net/api/track/sucks.json';
+            url = tmradio.iphone.prefix + '/track/sucks.json';
         } else {
             return;
         }
@@ -52,7 +53,7 @@ tmradio.iphone = {
         // Do the ajax call
         $.ajax({
             type: "GET",
-            url: "http://music.tmradio.net/api/status.json",
+            url: tmradio.iphone.prefix + "/status.json",
             dataType: "json",
             cache: false,
             success: function(data){
@@ -149,7 +150,7 @@ tmradio.iphone = {
             }
 
             $.post(
-                'http://music.tmradio.net/api/auth.json',
+                tmradio.iphone.prefix + '/auth.json',
                 {"type": "email", "id": email},
                 function(data){
                     alert(data['message']);
