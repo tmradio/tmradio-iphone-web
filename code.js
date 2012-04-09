@@ -64,7 +64,9 @@ tmradio.iphone = {
             .done(function(data){
                 var now = Math.round(Date.now() / 1000);
                 var end_of_play = data.last_played + data.length;
-                var time_to_check = 1000 * (end_of_play - now + tmradio.iphone.delay + 5);
+                var left_to_play = end_of_play - data.current_ts;
+
+                var time_to_check = 1000 * (left_to_play + tmradio.iphone.delay);
                 if (time_to_check <= 0) {
                     time_to_check = 1000 * 5;
                 }
