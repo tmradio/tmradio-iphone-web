@@ -3,7 +3,7 @@ var jQT = $.jQTouch({
     icon: 'icon.png',
     statusBar: 'black',
     startupScreen: 'phone_startup.png',
-    preloadImages: ['Play_Button.png', 'Stop_Button.png', 'reload.png', 'rocks.png', 'sucks.png']
+    preloadImages: ['Play_Button.png', 'Stop_Button.png', 'rocks.png', 'sucks.png']
 });
 
 var tmradio = tmradio || {};
@@ -30,7 +30,7 @@ tmradio.iphone = {
             return;
         }
 
-        tmradio.iphone.v.fadeOut();
+        $('#vote_actions').fadeOut();
 
         $.post(
             url,
@@ -77,11 +77,20 @@ tmradio.iphone = {
                     window.setTimeout(tmradio.iphone.getCurrentTrackInfo, time_to_check);
                 }
 
-                if (tmradio.iphone.token &&
-                    tmradio.iphone.v.css('display') == 'none' &&
-                    (tmradio.iphone.track_info == null || tmradio.iphone.track_info.id != data.id)
-                ) {
-                    tmradio.iphone.v.fadeIn();
+                if (tmradio.iphone.track_info == null || tmradio.iphone.track_info.id != data.id) {
+                    tmradio.iphone.activateVote();
+                }
+
+                if (data.download != null) {
+                    $('#download').fadeIn();
+                } else {
+                    $('#download').fadeOut();
+                }
+
+                if ($.inArray('music', data.labels) == -1) {
+                    $('#lastfm').fadeOut();
+                } else {
+                    $('#lastfm').fadeIn();
                 }
 
                 tmradio.iphone.track_info = data;
@@ -115,12 +124,10 @@ tmradio.iphone = {
             '🕗<span id="time">' + tmradio.iphone.formatTime(info.length) + '</span> '
         );
 
-        if (info.download != null) {
-            results_ul.append('<span id="download">↓DL</span> ');
-        }
-
         if (info.image != null) {
-            results_ul.prepend('<img src="' + info.image + '" align="left" width="32" height="32" style="margin-right: 2px;">');
+            $('#cover').attr('src', info.image);
+        } else {
+            $('#cover').attr('src', 'cover.png');
         }
     },
     formatTime: function(time) {
@@ -142,6 +149,17 @@ tmradio.iphone = {
 
         window.open(tmradio.iphone.track_info.download, 'Download');
     },
+    lastfm: function() {
+        if ($.inArray('music', tmradio.iphone.track_info.labels) == -1) {
+            return;
+        }
+
+        var url = 'http://www.last.fm/music/'
+                    + tmradio.iphone.track_info.artist.replace(' ', '+')
+                    + '/_/'
+                    + tmradio.iphone.track_info.title.replace(' ', '+');
+        window.open(url, 'last.fm');
+    },
     play: function() {
         tmradio.iphone.p.hide();
         tmradio.iphone.s.show();
@@ -162,7 +180,10 @@ tmradio.iphone = {
     stop: function() {
         tmradio.iphone.p.show();
         tmradio.iphone.s.hide();
-        tmradio.iphone.v.hide();
+
+        $('#track_actions2 li').hide();
+        $('#vote_actions').hide();
+        $('#login_ul').hide();
 
         $('#results_ul').text('');
 
@@ -170,16 +191,32 @@ tmradio.iphone = {
         player.get(0).pause();
         player.remove();
     },
+    activateVote: function() {
+        if (tmradio.iphone.token) {
+            $('#login_ul').hide();
+            $('#vote_actions').show();
+        } else {
+            $('#vote_actions').hide();
+            $('#login_ul').show();
+        }
+    },
     saveToken: function() {
         var input = $('#save_token_input');
-        if (input.val().length == 0) {
-            return;
+        var val = null;
+
+        if (input.val().length > 0) {
+            val = input.val();
         }
 
-        localStorage.setItem('token', input.val());
-        tmradio.iphone.token = input.val();
-        alert('saved!')
-        $('#log_in_button').text('Relogin');
+        if (val == null) {
+            tmradio.iphone.logout();
+        } else {
+            localStorage.setItem('token', val);
+            tmradio.iphone.token = val;
+            tmradio.iphone.activateVote();
+            $('#logout_ul').show();
+        }
+
         jQT.goBack('#home');
     },
     requestToken: function() {
@@ -202,6 +239,15 @@ tmradio.iphone = {
     hideAd: function() {
         $('#fullscreen_ad').slideUp('slow');
     },
+    logout: function() {
+        $('#logout_ul').fadeOut();
+
+        localStorage.removeItem('token');
+        tmradio.iphone.token = null;
+        $('#save_token_input').val('');
+
+        tmradio.iphone.activateVote();
+    },
     init: function() {
         window.applicationCache.addEventListener('updateready', tmradio.iphone.updateSite, false);
 
@@ -214,24 +260,24 @@ tmradio.iphone = {
         tmradio.iphone.token = localStorage.getItem('token');
 
         if (tmradio.iphone.token) {
-            $('#log_in_button').text('Relogin');
             $('#save_token_input').val(tmradio.iphone.token);
+            $('#logout_ul').show();
         }
 
-        $('#reload').click(tmradio.iphone.getCurrentTrackInfo);
         $('#rocks').click(function(){ tmradio.iphone.voteForCurentTrack('rocks') });
         $('#sucks').click(function(){ tmradio.iphone.voteForCurentTrack('sucks') });
-        $('#results_ul').on('click', "#download", tmradio.iphone.download);
+        $('#download').on('click', tmradio.iphone.download);
+        $('#lastfm').on('click', tmradio.iphone.lastfm);
 
         tmradio.iphone.p = $('#play');
         tmradio.iphone.s = $('#stop');
-        tmradio.iphone.v = $('#vote');
 
         tmradio.iphone.p.click(tmradio.iphone.play)
         tmradio.iphone.s.click(tmradio.iphone.stop)
 
         $('#save_token_btn').click(tmradio.iphone.saveToken);
         $('#request_token_btn').click(tmradio.iphone.requestToken)
+        $('#logout').click(tmradio.iphone.logout);
     }
 }
 

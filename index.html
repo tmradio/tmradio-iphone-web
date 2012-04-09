@@ -25,23 +25,37 @@
         <div id="home">
             <div class="toolbar">
                 <h1>ТMradio(β)</h1>
-                <a class="button flip" id="log_in_button" href="#settings">Log In</a>
+                <a class="button flip" id="log_in_button" href="#about">About</a>
             </div>
 
             <ul class="edit rounded">
                 <li class="center">
-                    <img id="play" src="Play_Button.png"></img>
-                    <img id="stop" style="display:none"  src="Stop_Button.png"></img>
+                    <img id="cover" src="cover.png" width="64" height="64" style="margin: 18px;">
+                    <img id="play" src="Play_Button.png" width="100" height="100"></img>
+                    <img id="stop" style="display:none"  src="Stop_Button.png" width="100" height="100"></img>
                 </li>
                 <li class="info">
                     <div id="results_ul"></div>
                 </li>
             </ul>
 
-            <ul class="individual" style="display: none;" id="vote">
-                <li><a id="rocks" class="greenButton">Rocks</a></li>
-                <li><a id="sucks" class="redButton">Sucks</a></li>
+            <ul class="rounded" id="login_ul" style="display: none">
+                <li><a href="#login" class="whiteButton flip">Log In to vote</a></li>
             </ul>
+
+            <ul class="individual" id="vote_actions" style="display: none;">
+                <li id="rocks"><a class="greenButton">Rocks</a></li>
+                <li id="sucks"><a class="redButton">Sucks</a></li>
+            </ul>
+
+            <ul class="rounded" id="track_actions2">
+                <li class="arrow" style="display: none;" id="download"><a>Download</a></li>
+                <li class="arrow" style="display: none;" id="lastfm"><a>track at Last.fm</a></li>
+            </ul>
+
+            <!-- <ul class="individual" style="display: none;" id="login">
+                <li><a class="grayButton">Log In</a></li>
+            </ul> -->
 
             <div id="player" style="display:none;">
                 <!-- place for player -->
@@ -52,7 +66,32 @@
             </div>
         </div>
 
-        <div id="settings">
+        <div id="about">
+            <div class="toolbar">
+                <h1>About</h1>
+                <a class="button back" id="back" href="#">Back</a>
+            </div>
+
+            <div class="info">
+                <p>This web-application is open-source.</p>
+                <p>You can report issues and get source code at <a href="https://github.com/tmradio/tmradio-iphone-web">https://github.com/tmradio/tmradio-iphone-web</a></p>
+                <br>
+                <p>tmradio.net is a non-commercial enterprise funded by listeners. <a href="http://www.tmradio.net/support/donate/">Please donate</a></p>
+                <br>
+                <h2>Contact info</h2>
+                <p>Email: <a href="mailto:info@tmradio.net">info@tmradio.net</a></p>
+                <p>Горячая линия: <a href="tel:+7-911-700-38-31">+7 911 700-38-31</a></p>
+                <br>
+                <br>
+                <p><a href="http://www.tmradio.net/"><img src="cover.png"></a></p>
+            </div>
+
+            <ul class="rounded" id="logout_ul" style="display: none">
+                <li><a id="logout" class="whiteButton">Log Out</a></li>
+            </ul>
+        </div>
+
+        <div id="login">
             <div class="toolbar">
                 <h1>Log In</h1>
                 <!-- <a class="button flip" href="#stats">Stats</a> -->

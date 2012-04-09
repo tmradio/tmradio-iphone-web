@@ -3,6 +3,7 @@ CACHE MANIFEST
 # Cache manifest version 18
 #
 code.js
+cover.png
 icon.png
 jqtouch/jquery-1.7.min.js
 jqtouch/jqtouch.min.js
@@ -22,3 +23,4 @@ https://music.tmradio.net/api/track/info.json
 https://music.tmradio.net/api/track/rocks.json
 https://music.tmradio.net/api/track/sucks.json
 http://userserve-ak.last.fm/serve/
+http://images.amazon.com/images/
