@@ -39,7 +39,7 @@ tmradio.iphone = {
         )
         .done(function(data){
             $("#results_ul").text(data.message);
-            tmradio.iphone.getCurrentTrackInfo();
+            tmradio.iphone.getCurrentTrackInfo(true);
         })
         .fail(function(){
             alert('Looks like you have a bad auth-token');
@@ -50,7 +50,7 @@ tmradio.iphone = {
             $('#log_in_button').text('Log In');
         });
     },
-    getCurrentTrackInfo: function() {
+    getCurrentTrackInfo: function(oob) {
         // Show a loading message
         var results_ul = $("#results_ul")
 
@@ -72,7 +72,10 @@ tmradio.iphone = {
                 if (time_to_check <= 0) {
                     time_to_check = 1000 * 5;
                 }
-                window.setTimeout(tmradio.iphone.getCurrentTrackInfo, time_to_check);
+
+                if (oob == undefined) {
+                    window.setTimeout(tmradio.iphone.getCurrentTrackInfo, time_to_check);
+                }
 
                 if (tmradio.iphone.token &&
                     tmradio.iphone.v.css('display') == 'none' &&
