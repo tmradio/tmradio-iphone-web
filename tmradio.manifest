@@ -1,6 +1,6 @@
 CACHE MANIFEST
 #
-# Cache manifest version 15
+# Cache manifest version 16
 #
 code.js
 icon.png
@@ -10,9 +10,7 @@ jqtouch/jqtouch-jquery.min.js
 phone_startup.png
 Play_Button.png
 reload.png
-rocks.png
 Stop_Button.png
-sucks.png
 themes/css/jqtouch.css
 themes/img/jqt/loading.gif
 themes/img/jqt/on_off.png

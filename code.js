@@ -111,9 +111,11 @@ tmradio.iphone = {
         );
 
         if (info.download != null) {
-            results_ul.append(
-                '<span id="download">↓DL</span> '
-            );
+            results_ul.append('<span id="download">↓DL</span> ');
+        }
+
+        if (info.image != null) {
+            results_ul.prepend('<img src="' + info.image + '" align="left" width="32" height="32" style="margin-right: 2px;">');
         }
     },
     formatTime: function(time) {
