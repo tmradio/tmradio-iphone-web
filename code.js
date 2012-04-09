@@ -8,13 +8,15 @@ var jQT = $.jQTouch({
 
 var tmradio = tmradio || {};
 tmradio.iphone = {
-    prefix: 'https://music.tmradio.net/api',
+    prefix: 'http://music.tmradio.net/api',
+    sprefix: 'https://music.tmradio.net/api',
     delay: null,
+    track_end_time: null,
+    track_time_updater: null,
     token: null,
     track_info: null,
     p: null,
     s: null,
-    v: null,
     // Update app-cache, if there is newer version
     updateSite: function(event) {
         window.applicationCache.swapCache();
@@ -23,9 +25,9 @@ tmradio.iphone = {
     voteForCurentTrack: function(vote) {
         var url = null;
         if (vote == 'rocks') {
-            url = tmradio.iphone.prefix + '/track/rocks.json';
+            url = tmradio.iphone.sprefix + '/track/rocks.json';
         } else if (vote == 'sucks') {
-            url = tmradio.iphone.prefix + '/track/sucks.json';
+            url = tmradio.iphone.sprefix + '/track/sucks.json';
         } else {
             return;
         }
@@ -65,6 +67,8 @@ tmradio.iphone = {
                 var now = Math.round(Date.now() / 1000);
                 var end_of_play = data.last_played + data.length;
                 var left_to_play = end_of_play - data.current_ts;
+
+                tmradio.iphone.track_end_time = now + left_to_play;
 
                 var time_to_check = 1000 * (left_to_play + tmradio.iphone.delay);
                 if (time_to_check <= 0) {
@@ -186,6 +190,9 @@ tmradio.iphone = {
         var player = $('#tmRadio');
         player.get(0).pause();
         player.remove();
+
+        tmradio.iphone.track_info = null;
+        tmradio.iphone.track_end_time = null;
     },
     activateVote: function() {
         if (tmradio.iphone.token) {
@@ -224,7 +231,7 @@ tmradio.iphone = {
         }
 
         $.post(
-            tmradio.iphone.prefix + '/auth.json',
+            tmradio.iphone.sprefix + '/auth.json',
             {"type": "email", "id": email},
             function(data){
                 alert(data['message']);
@@ -244,6 +251,20 @@ tmradio.iphone = {
 
         tmradio.iphone.activateVote();
     },
+    timeFix: function() {
+        if (tmradio.iphone.track_end_time == null) {
+            return;
+        }
+
+        var now = Math.round(Date.now() / 1000);
+        var time_left = tmradio.iphone.track_end_time - now + tmradio.iphone.delay;
+
+        if (time_left < 0) {
+            time_left = 0;
+        }
+
+        $('#time').text(tmradio.iphone.formatTime(time_left));
+    },
     init: function() {
         window.applicationCache.addEventListener('updateready', tmradio.iphone.updateSite, false);
 
@@ -252,6 +273,8 @@ tmradio.iphone = {
         } else {
             window.setTimeout(tmradio.iphone.hideAd, 1000 * 5); // 5 seconds
         }
+
+        window.setInterval(tmradio.iphone.timeFix, 1000);
 
         tmradio.iphone.token = localStorage.getItem('token');
 
