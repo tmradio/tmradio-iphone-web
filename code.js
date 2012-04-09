@@ -185,14 +185,15 @@ tmradio.iphone = {
         $('#vote_actions').hide();
         $('#login_ul').hide();
 
-        $('#results_ul').text('');
-
         var player = $('#tmRadio');
         player.get(0).pause();
         player.remove();
 
         tmradio.iphone.track_info = null;
         tmradio.iphone.track_end_time = null;
+
+        $('#cover').attr('src', 'cover.png');
+        $('#results_ul').text('');
     },
     activateVote: function() {
         if (tmradio.iphone.token) {
