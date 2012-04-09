@@ -83,7 +83,7 @@ tmradio.iphone = {
                     $('#download').fadeOut();
                 }
 
-                if ($.inArray('music', data.labels) == -1) {
+                if (data.track_url == null) {
                     $('#lastfm').fadeOut();
                 } else {
                     $('#lastfm').fadeIn();
@@ -147,15 +147,11 @@ tmradio.iphone = {
         return false;
     },
     lastfm: function() {
-        if ($.inArray('music', tmradio.iphone.track_info.labels) == -1) {
+        if (tmradio.iphone.track_info.track_url == null) {
             return;
         }
 
-        var url = 'http://www.last.fm/music/'
-                    + tmradio.iphone.track_info.artist.replace(' ', '+')
-                    + '/_/'
-                    + tmradio.iphone.track_info.title.replace(' ', '+');
-        window.open(url, 'last.fm');
+        window.open(tmradio.iphone.track_info.track_url, 'last.fm');
         return false;
     },
     play: function() {
