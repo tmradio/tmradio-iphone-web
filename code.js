@@ -148,6 +148,7 @@ tmradio.iphone = {
         }
 
         window.open(tmradio.iphone.track_info.download, 'Download');
+        return false;
     },
     lastfm: function() {
         if ($.inArray('music', tmradio.iphone.track_info.labels) == -1) {
@@ -159,6 +160,7 @@ tmradio.iphone = {
                     + '/_/'
                     + tmradio.iphone.track_info.title.replace(' ', '+');
         window.open(url, 'last.fm');
+        return false;
     },
     play: function() {
         tmradio.iphone.p.hide();
