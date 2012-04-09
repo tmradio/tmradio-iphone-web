@@ -102,7 +102,12 @@ tmradio.iphone = {
             return;
         }
 
-        results_ul.text('"' + info.title + '" — ' + info.artist);
+        if ($.inArray('lang:ru', info.labels) != -1) {
+            results_ul.text('«' + info.title + '» — ' + info.artist);
+        } else {
+            results_ul.text('"' + info.title + '" — ' + info.artist);
+        }
+
         results_ul.append(
             '<br>' +
             '<span title="played ' + info.count + ' times">▶' + info.count + '</span> ' +
