@@ -135,7 +135,7 @@ tmradio.iphone = {
             return;
         }
 
-        window.location.href = tmradio.iphone.track_info.download;
+        window.open(tmradio.iphone.track_info.download, 'Download');
     },
     play: function() {
         tmradio.iphone.p.hide();
