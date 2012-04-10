@@ -37,11 +37,14 @@ tmradio.iphone = {
         $.post(
             url,
             {"token": tmradio.iphone.token, "track_id": tmradio.iphone.track_info.id},
+            null,
             'json'
         )
         .done(function(data){
-            $("#results_ul").text(data.message);
-            tmradio.iphone.getCurrentTrackInfo(true);
+            if (data.id == tmradio.iphone.track_info.id) {
+                tmradio.iphone.track_info.weight = data.weight;
+                tmradio.iphone.showTrackInfo();
+            }
         })
         .fail(function(){
             alert('Looks like you have a bad auth-token');
@@ -122,7 +125,7 @@ tmradio.iphone = {
         results_ul.append(
             '<br>' +
             '<span title="played ' + info.count + ' times">▶' + info.count + '</span> ' +
-            '<span title="rating">⚖' + (Math.round(info.weight * 100) / 100) + '</span> ' + 
+            '⚖<span title="rating" id="rating">' + (Math.round(info.weight * 100) / 100) + '</span> ' + 
             '🕗<span id="time">' + tmradio.iphone.formatTime(info.length) + '</span> '
         );
 
