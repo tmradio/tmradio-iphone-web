@@ -142,7 +142,9 @@ tmradio.iphone = {
     },
     formatTime: function(time) {
         var seconds = time % 60;
-        var minutes = (time - seconds) / 60;
+        var _minutes = (time - seconds) / 60;
+        var minutes = _minutes % 60;
+        var _hours = (_minutes - minutes) / 60;
 
         seconds = Math.round(seconds);
 
@@ -150,7 +152,17 @@ tmradio.iphone = {
             seconds = '0' + seconds;
         }
 
-        return Math.round(minutes) + ':' + seconds;
+        minutes = Math.round(minutes)
+
+        if (_hours > 0) {
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+
+            return Math.round(_hours) + ':' + minutes + ':' + seconds;
+        }
+
+        return minutes + ':' + seconds;
     },
     download: function() {
         if (tmradio.iphone.track_info.download == null) {
