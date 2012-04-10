@@ -139,10 +139,10 @@ tmradio.iphone = {
         var seconds = time % 60;
         var minutes = (time - seconds) / 60;
 
+        seconds = Math.round(seconds);
+
         if (seconds < 10) {
-            seconds = '0' + Math.round(seconds);
-        } else {
-            seconds = Math.round(seconds);
+            seconds = '0' + seconds;
         }
 
         return Math.round(minutes) + ':' + seconds;
