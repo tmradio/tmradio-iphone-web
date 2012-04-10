@@ -10,6 +10,7 @@ var tmradio = tmradio || {};
 tmradio.iphone = {
     prefix: 'http://music.tmradio.net/api',
     sprefix: 'https://music.tmradio.net/api',
+    is_playing: false,
     delay: null,
     track_end_time: null,
     track_time_updater: null,
@@ -52,6 +53,10 @@ tmradio.iphone = {
         });
     },
     getCurrentTrackInfo: function(oob) {
+        if (tmradio.iphone.is_playing == false) {
+            return;
+        }
+
         // Show a loading message
         var results_ul = $("#results_ul")
 
@@ -175,6 +180,7 @@ tmradio.iphone = {
             })
             .on('playing', function(){
                 tmradio.iphone.delay = (Date.now() - tmradio.iphone.delay) / 1000;
+                tmradio.iphone.is_playing = true;
                 tmradio.iphone.getCurrentTrackInfo();
             })
             .on('emptied', function(){ $('#results_ul').text('Error'); })
@@ -192,6 +198,7 @@ tmradio.iphone = {
         player.get(0).pause();
         player.remove();
 
+        tmradio.iphone.is_playing = false;
         tmradio.iphone.track_info = null;
         tmradio.iphone.track_end_time = null;
 
