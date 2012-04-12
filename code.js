@@ -195,6 +195,9 @@ tmradio.iphone = {
                 tmradio.iphone.is_playing = true;
                 tmradio.iphone.getCurrentTrackInfo();
             })
+            .on('pause', function(){
+                tmradio.iphone.stop();
+            })
             .on('emptied', function(){ $('#results_ul').text('Error'); })
             .get(0).play();
     },
@@ -206,9 +209,7 @@ tmradio.iphone = {
         $('#vote_actions').hide();
         $('#login_ul').hide();
 
-        var player = $('#tmRadio');
-        player.get(0).pause();
-        player.remove();
+        $('#tmRadio').remove();
 
         tmradio.iphone.is_playing = false;
         tmradio.iphone.track_info = null;
@@ -315,7 +316,7 @@ tmradio.iphone = {
         tmradio.iphone.s = $('#stop');
 
         tmradio.iphone.p.click(tmradio.iphone.play)
-        tmradio.iphone.s.click(tmradio.iphone.stop)
+        tmradio.iphone.s.click(function(){ $('#tmRadio').trigger('pause'); })
 
         $('#save_token_btn').click(tmradio.iphone.saveToken);
         $('#request_token_btn').click(tmradio.iphone.requestToken)
